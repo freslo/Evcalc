@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Charge cost">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#0a6e5c">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACQUlEQVR42u3dsZXCQBBEQYQpUhQpiFiIgRjxSQAPdjWarh/CvXo9i8GxrPt2kb519ScQHIJDcAgOwSE4BIfgEByCQ4JDcAgOwSE4BIfgEByCQ3BIcAgOwTG99/MFh0JlwCE4BszG7XGHQ4kHBQ7BYTbgIAOOEiW8RuEwG3CQAQcZcAiOqrMR8hqFw0GBQ3CYDTjIgENwnGs2cj6qwOGgwCE4zAYcZMBRr6jXKBxmAw4y4BAcZgOOYjLSXqPROGwGHILDbMBBBhzlCnyNJuIwG3CQAYfgMBtwFJWR+Rp1VhSPw0GBgww4BIfZgKO6jNiPKs6KInE4KHCQAQcZcFQr+TXaEIfZ+GPLum9kWClnhYxUHA4KHA4KHA4KHOGzUfyj8pUMOStmIwyHgwKHgwKHgwKHg2I5yHBW1HQ2TonDQYGDDDg8NeDw1IDDbPSRcRocDgocDgocDgocDoqzop6zUR2Hg3Jsrb7UVIRgmy9ROiuCw2zA4akBh+AwG3CQAUf/1ygcipgNOMiAgww4PDjgMBtwkAGH4DAbcAS8RnP+57XlEBwOChxkwEEGHPVeo3DIbMBBBhyCY8iDw48Oiww4BIfZgIMMOKa/RsmwHILDQYGDDDgExxGvUbNhOciAQ3CYDTgGPjjIsBxkwCE4zAYcZMBx3GtUlsNswEEGHILDbMAx8TVKBhw2Aw7BYTbgGPjgIAMOweGgzMrvyspZERyCQ3AIDsEhOASH4BAcEhyCQ3AIDsEhOASH4BAcgkOCQ3Dohz5R88uMdNw4KgAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACQUlEQVR42u3dsZXCQBBEQYQpUhQpiFiIgRjxSQAPdjWarh/CvXo9i8GxrPt2kb519ScQHIJDcAgOwSE4BIfgEByCQ4JDcAgOwSE4BIfgEByCQ3BIcAgOwTG99/MFh0JlwCE4BszG7XGHQ4kHBQ7BYTbgIAOOEiW8RuEwG3CQAQcZcAiOqrMR8hqFw0GBQ3CYDTjIgENwnGs2cj6qwOGgwCE4zAYcZMBRr6jXKBxmAw4y4BAcZgOOYjLSXqPROGwGHILDbMBBBhzlCnyNJuIwG3CQAYfgMBtwFJWR+Rp1VhSPw0GBgww4BIfZgKO6jNiPKs6KInE4KHCQAQcZcFQr+TXaEIfZ+GPLum9kWClnhYxUHA4KHA4KHA4KHOGzUfyj8pUMOStmIwyHgwKHgwKHgwKHg2I5yHBW1HQ2TonDQYGDDDg8NeDw1IDDbPSRcRocDgocDgocDgocDoqzop6zUR2Hg3Jsrb7UVIRgmy9ROiuCw2zA4akBh+AwG3CQAUf/1ygcipgNOMiAgww4PDjgMBtwkAGH4DAbcAS8RnP+57XlEBwOChxkwEEGHPVeo3DIbMBBBhyCY8iDw48Oiww4BIfZgIMMOKa/RsmwHILDQYGDDDgExxGvUbNhOciAQ3CYDTgGPjjIsBxkwCE4zAYcZMBx3GtUlsNswEEGHILDbMAx8TVKBhw2Aw7BYTbgGPjgIAMOweGgzMrvyspZERyCQ3AIDsEhOASH4BAcEhyCQ3AIDsEhOASH4BAcgkOCQ3Dohz5R88uMdNw4KgAAAABJRU5ErkJggg==">
+<title>EV charging cost, live Nord Pool prices</title>
+<style>
+:root{--bg:#eef2f4;--sf:#fff;--ink:#14232b;--mut:#5d6e77;--line:#d3dce1;--ac:#0a6e5c;--soft:#d9efe9;--bar:#aebcc4;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e171c;--sf:#16232a;--ink:#e6eef1;--mut:#8fa3ad;--line:#2a3b44;--ac:#4fd1b3;--soft:#16392f;--bar:#3a4f5a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e171c;--sf:#16232a;--ink:#e6eef1;--mut:#8fa3ad;--line:#2a3b44;--ac:#4fd1b3;--soft:#16392f;--bar:#3a4f5a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+main{max-width:960px;margin:0 auto;padding:max(24px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(48px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1rem;margin:0 0 12px}
+.sub{color:var(--mut);margin:0 0 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.grid .card{margin-bottom:0}
+label{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:4px}
+label output{font-weight:600}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.num{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+small{display:block;color:var(--mut);font-size:.76rem;margin-top:3px}
+.status{font-size:.88rem;color:var(--mut);margin:0 0 16px}
+.status.bad{color:#b3261e}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;cursor:pointer}
+.opt[aria-pressed="true"]{border-color:var(--ac);background:var(--soft)}
+.opt b{font-size:1.7rem;color:var(--ac);font-variant-numeric:tabular-nums}
+.opt span{display:block;font-size:.84rem;color:var(--mut)}
+.opt h3{margin:0;font-size:.9rem}
+.chart{display:flex;align-items:flex-end;gap:1px;height:130px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.chart i{flex:1 0 4px;background:var(--bar);min-height:2px}
+.chart i.on{background:var(--ac)}
+.axis{font-size:.78rem;color:var(--mut);display:flex;justify-content:space-between;margin-top:4px}
+button.sec,summary{font:inherit;cursor:pointer}
+button.sec{background:none;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:8px;margin-top:10px}
+textarea{width:100%;min-height:90px;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+  <h1>EV charging cost</h1>
+  <p class="sub">Prices the charge hour by hour using Finnish Nord Pool spot prices, plus your margin and transfer fee.</p>
+  <p class="status" id="status" role="status">Loading prices…</p>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Charge</h2>
+      <label for="soc">Charge now <output id="socO"></output></label>
+      <input type="range" id="soc" min="0" max="100">
+      <label for="tgt" style="margin-top:12px">Charge limit <output id="tgtO"></output></label>
+      <input type="range" id="tgt" min="50" max="100">
+      <div class="row">
+        <div><label for="start">Start charging</label><input class="num" type="datetime-local" id="start"></div>
+        <div><label for="by">Ready by (optional)</label><input class="num" type="datetime-local" id="by"></div>
+      </div>
+      <div class="row">
+        <div><label for="fee">Transfer fee (day)</label><input class="num" type="number" id="fee" step="0.01" min="0"><small>c/kWh, with VAT</small></div>
+        <div><label for="mar">Supplier margin</label><input class="num" type="number" id="mar" step="0.01" min="0"><small>c/kWh, with VAT</small></div>
+      </div>
+      <div class="row">
+        <div><label for="bat">Usable battery</label><input class="num" type="number" id="bat" step="0.5" min="1"><small>kWh</small></div>
+        <div><label for="eff">Efficiency</label><input class="num" type="number" id="eff" step="1" min="50" max="100"><small>%</small></div>
+      </div>
+      <div class="row">
+        <div><label for="kw">Charging power</label><input class="num" type="number" id="kw" step="0.1" min="0.5"><small>kW at the wall</small></div>
+        <div><label for="vat">VAT</label><input class="num" type="number" id="vat" step="0.5" min="0"><small>%, used only if prices exclude VAT</small></div>
+      </div>
+      <label style="justify-content:flex-start;gap:8px;margin-top:12px"><input type="checkbox" id="night"> Use a night transfer fee (22:00–07:00)</label>
+      <div class="row" id="nrow" style="display:none"><div><label for="nfee">Transfer fee (night)</label><input class="num" type="number" id="nfee" step="0.01" min="0"><small>c/kWh, with VAT</small></div><div></div></div>
+      <label for="res" style="margin-top:12px">Spot price resolution</label>
+      <select class="num" id="res"><option value="15">15 minutes</option><option value="60">60 minutes</option></select>
+      <small>Requested from the price service. The 60-minute option needs spot-hinta.fi.</small>
+      <label style="justify-content:flex-start;gap:8px;margin-top:12px"><input type="checkbox" id="incl"> Loaded prices already include VAT</label>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <h2>Cost options</h2>
+      <p class="sub" id="need" style="margin-bottom:12px"></p>
+      <div id="opts"></div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:16px">
+    <h2>Spot price per slot (c/kWh)</h2>
+    <div class="chart" id="chart" aria-label="Price chart"></div>
+    <div class="axis"><span id="ax1"></span><span id="ax2"></span></div>
+  </section>
+
+  <details class="card">
+    <summary>Paste prices manually</summary>
+    <p class="sub">If loading fails: <a id="elink" href="#" target="_blank" rel="noopener">open the price data</a> in a new tab, select all, copy it, and paste it here. You can also paste plain prices, one per line, in c/kWh.</p>
+    <textarea id="paste" placeholder="12.4&#10;11.9&#10;10.2"></textarea>
+    <div class="row">
+      <div><label for="pstart">First slot starts</label><input class="num" type="datetime-local" id="pstart"></div>
+      <div><label for="pint">Slot length</label><select class="num" id="pint"><option value="60">60 minutes</option><option value="15">15 minutes</option></select></div>
+    </div>
+    <button class="sec" id="pbtn" type="button">Use these prices</button>
+  </details>
+</main>
+
+<script>
+(function(){
+  var KEY="tesla-live-v1";
+  var D={soc:20,tgt:80,fee:5,nfee:3,mar:0.5,bat:75,eff:90,kw:11,vat:25.5,incl:true,night:false,res:15};
+  var s=Object.assign({},D), slots=[], sel="start", source="";
+  try{var sv=JSON.parse(localStorage.getItem(KEY)||"null");if(sv)for(var k in D)if(typeof sv[k]===typeof D[k])s[k]=sv[k];}catch(e){}
+  function $(i){return document.getElementById(i);}
+  function loc(d){return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,16);}
+  function fmt(n,d){return n.toLocaleString("fi-FI",{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function when(ms){return new Date(ms).toLocaleString("fi-FI",{weekday:"short",hour:"2-digit",minute:"2-digit"});}
+  var nums=["soc","tgt","fee","nfee","mar","bat","eff","kw","vat"];
+  nums.forEach(function(k){$(k).value=s[k];$(k).addEventListener("input",function(){var v=parseFloat($(k).value);if(!isNaN(v)){s[k]=v;save();}render();});});
+  $("incl").checked=s.incl;$("incl").addEventListener("change",function(){s.incl=$("incl").checked;save();render();});
+  $("night").checked=s.night;$("nrow").style.display=s.night?"":"none";
+  $("night").addEventListener("change",function(){s.night=$("night").checked;$("nrow").style.display=s.night?"":"none";save();render();});
+  $("res").value=String(s.res);
+  $("res").addEventListener("change",function(){s.res=parseInt($("res").value,10);save();setStatus("Loading prices…",false);load();});
+  function feeAt(ms){if(!s.night)return s.fee;var hr=new Date(ms).getHours();return(hr>=22||hr<7)?s.nfee:s.fee;}
+  var now=new Date();now.setSeconds(0,0);
+  $("start").value=loc(now);$("pstart").value=loc(new Date(new Date().setHours(0,0,0,0)));
+  ["start","by"].forEach(function(i){$(i).addEventListener("input",render);});
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+
+  function setStatus(t,bad){var e=$("status");e.textContent=t;e.className="status"+(bad?" bad":"");}
+  function parse(j){
+    var a=Array.isArray(j)?j:(j&&j.prices)||[];
+    return a.map(function(x){return{start:Date.parse(x.startDate),end:Date.parse(x.endDate),p:Number(x.price)};})
+      .filter(function(x){return isFinite(x.start)&&isFinite(x.end)&&isFinite(x.p);})
+      .sort(function(a,b){return a.start-b.start;});
+  }
+  function load(){
+    var t0=new Date(Date.now()-3*36e5).toISOString().slice(0,19)+"Z";
+    var t1=new Date(Date.now()+60*36e5).toISOString().slice(0,19)+"Z";
+    var srcs=[
+      {name:"spot-hinta.fi",url:"https://api.spot-hinta.fi/TodayAndDayForward?priceResolution="+s.res,parse:parseSpot,incl:true,res:true},
+      {name:"Elering (Nord Pool FI)",url:"https://dashboard.elering.ee/api/nps/price?start="+encodeURIComponent(t0)+"&end="+encodeURIComponent(t1),parse:parseElering,incl:false},
+      {name:"porssisahko.net",url:"https://api.porssisahko.net/v2/latest-prices.json",parse:parse,incl:true},
+      {name:"porssisahko.net",url:"https://api.porssisahko.net/v1/latest-prices.json",parse:parse,incl:true}
+    ];
+    var errs=[];
+    (function next(i){
+      if(i>=srcs.length){setStatus("Could not load prices ("+errs.join("; ")+"). Open this file from a normal browser tab with internet access, or paste prices below.",true);return;}
+      fetch(srcs[i].url).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).then(function(j){
+        var p=srcs[i].parse(j);if(!p.length)throw new Error("no prices in response");slots=p;source=srcs[i].name;s.incl=srcs[i].incl;$("incl").checked=s.incl;done();
+        if(!srcs[i].res)setStatus($("status").textContent+" This source only provides its native resolution, so the 15/60 minute setting is not applied.",false);
+      }).catch(function(e){errs.push(srcs[i].name+": "+(e&&e.message?e.message:"failed"));next(i+1);});
+    })(0);
+  }
+  function parseElering(j){
+    var a=(j&&j.data&&j.data.fi)||[];
+    var pts=a.map(function(x){return{t:Number(x.timestamp)*1000,p:Number(x.price)/10};}) // EUR/MWh to c/kWh, no VAT
+      .filter(function(x){return isFinite(x.t)&&isFinite(x.p);}).sort(function(a,b){return a.t-b.t;});
+    if(!pts.length)return[];
+    var step=36e5;
+    for(var i=1;i<pts.length;i++){var d=pts[i].t-pts[i-1].t;if(d>0&&d<step)step=d;}
+    return pts.map(function(x){return{start:x.t,end:x.t+step,p:x.p};});
+  }
+  function parseSpot(j){
+    var pts=(Array.isArray(j)?j:[]).map(function(x){return{t:Date.parse(x.DateTime),p:Number(x.PriceWithTax)};})
+      .filter(function(x){return isFinite(x.t)&&isFinite(x.p);}).sort(function(a,b){return a.t-b.t;});
+    if(!pts.length)return[];
+    var step=36e5;
+    for(var i=1;i<pts.length;i++){var d=pts[i].t-pts[i-1].t;if(d>0&&d<step)step=d;}
+    var big=Math.max.apply(null,pts.map(function(x){return Math.abs(x.p);}));
+    var m=big<3?100:1; // API gives EUR/kWh; convert to c/kWh
+    return pts.map(function(x){return{start:x.t,end:x.t+step,p:x.p*m};});
+  }
+  function done(){
+    var n=Date.now();var last=slots[slots.length-1].end;
+    setStatus("Loaded "+slots.length+" price slots from "+source+", covering "+when(slots[0].start)+" to "+when(last)+".",false);
+    render();
+  }
+  $("pbtn").addEventListener("click",function(){
+    var raw=$("paste").value.trim();
+    if(raw[0]==="{"||raw[0]==="["){
+      try{
+        var j=JSON.parse(raw),p=parseElering(j),inc=false;
+        if(!p.length){p=parseSpot(j);inc=true;}
+        if(!p.length){p=parse(j);inc=true;}
+        if(!p.length)throw 0;
+        slots=p;source="pasted JSON";s.incl=inc;$("incl").checked=inc;done();return;
+      }catch(e){setStatus("That JSON was not recognised. Paste the full response from the Elering link above.",true);return;}
+    }
+    var v=$("paste").value.split(/[\s,;]+/).map(parseFloat).filter(isFinite);
+    var st=Date.parse($("pstart").value),len=parseInt($("pint").value,10)*6e4;
+    if(!v.length||!isFinite(st)){setStatus("Enter at least one price and a start time.",true);return;}
+    slots=v.map(function(p,i){return{start:st+i*len,end:st+(i+1)*len,p:p};});source="pasted values";done();
+  });
+
+  function calc(){
+    var need=Math.max(s.tgt-s.soc,0)/100*s.bat, grid=need/(Math.min(Math.max(s.eff,1),100)/100);
+    return{need:need,grid:grid,k:1+(s.incl?0:s.vat/100)};
+  }
+  function contiguous(t,c,limit){
+    var rem=c.grid,cost=0,used=[],end=t;
+    for(var i=0;i<slots.length&&rem>1e-9;i++){
+      var x=slots[i];if(x.end<=t)continue;
+      var t0=Math.max(x.start,t),cap=s.kw*(x.end-t0)/36e5,e=Math.min(rem,cap);
+      cost+=e*(x.p*c.k+s.mar+feeAt(x.start));rem-=e;used.push(i);end=t0+e/s.kw*36e5;
+    }
+    if(rem>1e-9||(limit&&end>limit))return null;
+    return{cost:cost/100,used:used,from:t,to:end};
+  }
+  function cheapestHours(t,limit,c){
+    var el=[];
+    slots.forEach(function(x,i){
+      if(x.end<=t||(limit&&x.start>=limit))return;
+      var a=Math.max(x.start,t),b=limit?Math.min(x.end,limit):x.end;
+      el.push({i:i,p:x.p*c.k+s.mar+feeAt(x.start),cap:s.kw*(b-a)/36e5});
+    });
+    el.sort(function(a,b){return a.p-b.p;});
+    var rem=c.grid,cost=0,used=[];
+    el.forEach(function(x){if(rem<=1e-9)return;var e=Math.min(rem,x.cap);cost+=e*x.p;rem-=e;used.push(x.i);});
+    if(rem>1e-9)return null;
+    used.sort(function(a,b){return a-b;});
+    return{cost:cost/100,used:used};
+  }
+
+  function render(){
+    $("socO").textContent=s.soc+" %";$("tgtO").textContent=s.tgt+" %";
+    var c=calc();
+    $("need").textContent=s.tgt<=s.soc?"The limit is at or below the current charge, so there is nothing to charge."
+      :fmt(c.grid,1)+" kWh from the grid ("+fmt(c.need,1)+" kWh into the battery), about "+fmt(c.grid/s.kw,1)+" h at "+fmt(s.kw,1)+" kW.";
+    if(!slots.length||c.grid<=0){$("opts").innerHTML="";return;}
+    var t=Date.parse($("start").value)||Date.now(),by=Date.parse($("by").value)||0;
+    var res={};
+    res.start=contiguous(t,c,by);
+    var best=null;
+    slots.forEach(function(x){
+      var st=Math.max(x.start,t);if(x.end<=t)return;
+      var r=contiguous(st,c,by);if(r&&(!best||r.cost<best.cost))best=r;
+    });
+    res.cont=best;res.hours=cheapestHours(t,by,c);
+    var defs=[
+      ["start","Start at the chosen time"],
+      ["cont","Cheapest continuous window"],
+      ["hours","Cheapest hours, pausing allowed"]
+    ];
+    var html="";
+    defs.forEach(function(d){
+      var r=res[d[0]];
+      html+='<button type="button" class="opt" data-k="'+d[0]+'" aria-pressed="'+(sel===d[0])+'"><h3>'+d[1]+'</h3>';
+      if(!r)html+='<span>Not possible with the prices loaded'+(by?" before the ready-by time":"")+'. Prices may not cover the whole charge yet.</span>';
+      else{
+        var avg=r.cost*100/c.grid;
+        var when2=d[0]==="hours"?"Spread over "+r.used.length+" slots, first at "+when(slots[r.used[0]].start):when(r.from)+" to "+when(r.to);
+        html+='<b>'+fmt(r.cost,2)+' €</b> <span style="display:inline">· '+fmt(avg,2)+' c/kWh all in</span><span>'+when2+'</span>';
+      }
+      html+="</button>";
+    });
+    $("opts").innerHTML=html;
+    Array.prototype.forEach.call($("opts").querySelectorAll(".opt"),function(b){
+      b.addEventListener("click",function(){sel=b.getAttribute("data-k");render();});
+    });
+    chart(t,res[sel]);
+  }
+  function chart(t,r){
+    var vis=slots.map(function(x,i){return{x:x,i:i};}).filter(function(o){return o.x.end>t;});
+    if(!vis.length){$("chart").innerHTML="";return;}
+    var ps=vis.map(function(o){return o.x.p;}),lo=Math.min(0,Math.min.apply(null,ps)),hi=Math.max.apply(null,ps),span=(hi-lo)||1;
+    var on={};if(r)r.used.forEach(function(i){on[i]=1;});
+    $("chart").innerHTML=vis.map(function(o){
+      return '<i class="'+(on[o.i]?"on":"")+'" style="height:'+Math.max((o.x.p-lo)/span*100,1.5)+'%" title="'+when(o.x.start)+": "+fmt(o.x.p,2)+' c/kWh"></i>';
+    }).join("");
+    $("ax1").textContent=when(vis[0].x.start)+" · low "+fmt(Math.min.apply(null,ps),1)+" c";
+    $("ax2").textContent="high "+fmt(hi,1)+" c · "+when(vis[vis.length-1].x.end);
+  }
+  $("elink").href="https://dashboard.elering.ee/api/nps/price?start="+encodeURIComponent(new Date(Date.now()-3*36e5).toISOString().slice(0,19)+"Z")+"&end="+encodeURIComponent(new Date(Date.now()+60*36e5).toISOString().slice(0,19)+"Z");
+  render();load();
+})();
+</script>
+</body>
+</html>
